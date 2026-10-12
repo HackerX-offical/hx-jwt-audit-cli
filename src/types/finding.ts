@@ -7,18 +7,14 @@ export interface Finding {
   detail: string;
   cwe?: string;
   attack?: string;
+  references?: string[];
 }
 
-export interface DecodedJwt {
-  raw: string;
+export interface JwtContext {
   header: Record<string, unknown>;
   payload: Record<string, unknown>;
-  signature: string;
+  raw: string;
   signingInput: string;
-}
-
-export interface AuditReport {
-  decoded: DecodedJwt;
-  findings: Finding[];
-  riskScore: number;
+  signature: string;
+  nowSec: number;
 }

@@ -3,16 +3,29 @@
   "version": "1.0.0",
   "description": "Advanced JWT/JWS security audit — algorithm confusion, JWK abuse, claim policy, verification oracles",
   "type": "module",
-  "bin": { "hx-jwt": "./dist/cli.js" },
+  "bin": {
+    "hx-jwt": "./dist/cli.js"
+  },
   "scripts": {
     "build": "tsc",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
-    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.integration.config.js"
+    "test:integration": "node --experimental-vm-modules node_modules/jest/bin/jest.js --config jest.integration.config.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
-  "keywords": ["jwt", "jws", "security", "oauth", "cli", "hackerx"],
+  "keywords": [
+    "jwt",
+    "jws",
+    "security",
+    "oauth",
+    "cli",
+    "hackerx"
+  ],
   "author": "HackerX Official",
   "license": "MIT",
-  "engines": { "node": ">=20" },
+  "engines": {
+    "node": ">=20"
+  },
   "dependencies": {
     "chalk": "^5.4.1",
     "commander": "^14.0.3",
@@ -24,6 +37,7 @@
     "@types/jest": "^30.0.0",
     "@types/node": "^22.10.0",
     "jest": "^30.2.0",
+    "prettier": "^3.6.2",
     "ts-jest": "^29.4.6",
     "typescript": "^5.9.3"
   }
