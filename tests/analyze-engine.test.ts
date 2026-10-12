@@ -19,9 +19,9 @@ describe('analyzeJwt engine', () => {
 
   it('respects injected clock for time-based findings', () => {
     const header = Buffer.from(JSON.stringify({ alg: 'HS256' })).toString('base64url');
-    const payload = Buffer.from(
-      JSON.stringify({ sub: 'x', exp: 1_600_000_000 }),
-    ).toString('base64url');
+    const payload = Buffer.from(JSON.stringify({ sub: 'x', exp: 1_600_000_000 })).toString(
+      'base64url',
+    );
     const r = analyzeJwt(decodeJwt(`${header}.${payload}.sig`), 1_700_000_000);
     expect(r.findings.some((f) => f.id === 'expired')).toBe(true);
   });
