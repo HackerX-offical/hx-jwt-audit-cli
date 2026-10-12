@@ -1,33 +1,69 @@
 # hx-jwt-audit-cli
 
-**Advanced JWT/JWS audit engine** for API, mobile, and SSO engagements. Goes far beyond
-`jwt.io` decode: maps findings to real attack classes (algorithm confusion, JKU/X5U/JWK
-abuse, `kid` oracles, claim policy).
+**Modular JWT/JWS security audit** — algorithm policy, claim hygiene, JWK abuse signals,
+and verification oracles for authorized app reviews.
 
-## Capabilities
+## Why this exists
 
-| Module              | What it does in the field                                                                                                           |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| **Finding engine**  | Scores risk from header/payload; flags `none`, embedded `jwk`, remote `jku`/`x5u`, long `exp`, missing `exp`, privilege claims      |
-| **Confusion probe** | Tests whether an RS/ES token verifies as **HS256** using the PEM **public key as HMAC secret** (classic CVE-class misconfiguration) |
-| **HMAC verify**     | Confirms guessed secrets against captured tokens during authorized assessments                                                      |
-| **Batch mode**      | Audits token dumps from mobile proxies, HAR exports, or log files                                                                   |
+JWT misconfigurations (alg:none, RS→HS confusion, weak HMAC secrets) still compromise
+production APIs. This CLI decodes tokens offline, runs a registry of findings, scores
+risk, and offers targeted verify/crack probes for controlled assessments. Use only on
+tokens you are authorized to analyze.
 
-## Usage
+## Features
+
+- `audit` — Full static analysis with `table`, `json`, `markdown`, or `sarif` output
+- `batch` — Token list file → multiple reports
+- `verify-hmac` — Check HMAC signature against a supplied secret
+- `crack-weak` — Built-in weak-secret wordlist (authorized testing only)
+- `confusion-test` — RS/ES→HS confusion probe with a PEM public key
+- Exit `2` on high-risk audit score or failed security probes
+
+## Install
 
 ```bash
-hx-jwt audit "eyJhbGciOiJSUzI1NiIs..."
-hx-jwt audit @captured-token.txt --json
-hx-jwt verify-hmac TOKEN -s "weak-secret"
-hx-jwt confusion-test TOKEN -k rsa-public.pem
-hx-jwt batch tokens.txt
+git clone https://github.com/HackerX-offical/hx-jwt-audit-cli.git
+cd hx-jwt-audit-cli
+npm install
+npm run build
+npm link   # optional: global hx-jwt
 ```
+
+## Quick start
+
+```bash
+hx-jwt audit eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+hx-jwt audit @token.txt --format json
+hx-jwt verify-hmac <token> -s "your-secret"
+hx-jwt confusion-test <token> -k public.pem
+```
+
+## Output
+
+| Mode                          | Description                                            |
+| ----------------------------- | ------------------------------------------------------ |
+| `table`                       | Colored findings with risk score (default)             |
+| `json` / `markdown` / `sarif` | Machine- and report-friendly formats                   |
+| Exit `2`                      | Risk score below threshold or probe indicates weakness |
+
+## Develop
+
+```bash
+npm run format
+npm run build
+npm test
+npm run test:integration   # optional live JWKS endpoints
+npm run format:check
+```
+
+## Architecture
+
+See [ARCHITECTURE.md](./ARCHITECTURE.md) for module layout and extension points.
 
 ## Ethics
 
-Analyze only tokens you are authorized to test. See [SECURITY.md](./SECURITY.md).
-
-HackerX License
+Use only on systems and content you are **authorized** to test. See
+[SECURITY.md](./SECURITY.md).
 
 ## License
 
