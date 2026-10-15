@@ -22,7 +22,7 @@ tokens you are authorized to analyze.
 ## Install
 
 ```bash
-git clone https://github.com/HackerX-offical/hx-jwt-audit-cli.git
+git clone https://github.com/HackerX-official/hx-jwt-audit-cli.git
 cd hx-jwt-audit-cli
 npm install
 npm run build
